@@ -1,7 +1,8 @@
-from django.views.generic.list import ListView, View
-from django.shortcuts import reverse
-from items.models import Item
 from django.http import HttpResponseRedirect
+from django.shortcuts import reverse
+from django.views.generic.list import ListView, View
+
+from items.models import Item
 
 
 class ItemsView(ListView):

@@ -116,5 +116,5 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.BCryptPasswordHasher',
 ]
 
-from .local import *
-from .secrets import *
+from .local import *  # noqa
+from .secrets import *  # noqa

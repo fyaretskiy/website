@@ -1,7 +1,6 @@
-from .views import ItemsView, AddItemView, DeleteItemView
-
 from django.conf.urls import url
 
+from .views import AddItemView, DeleteItemView, ItemsView
 
 urlpatterns = [
     url(r'^$', ItemsView.as_view(), name='home'),

@@ -1,7 +1,9 @@
-from django.views.generic.edit import FormView, CreateView
+from django.contrib.auth import logout
+from django.http import HttpResponseRedirect
 from django.shortcuts import reverse
-from .forms import UserRegistrationForm
-from .models import User
+from django.views.generic.edit import FormView, View
+
+from .forms import UserLoginForm, UserRegistrationForm
 
 
 class UserRegistrationView(FormView):
@@ -10,9 +12,22 @@ class UserRegistrationView(FormView):
     success_url = reverse('items:home')
 
     def form_valid(self, form):
-        data = form.cleaned_data
-        User.objects.create_user(username=data['username'],
-                                 email=data['email'],
-                                 password=data['password'])
+        form.create_user()
+        return super().form_valid(form)
 
-        super().form_valid(form)
+
+class LogoutView(View):
+
+    def dispatch(self, request, *args, **kwargs):
+        logout(request)
+        return HttpResponseRedirect(reverse('items:home'))
+
+
+class LoginView(FormView):
+    form_class = UserLoginForm
+    success_url = reverse('items:home')
+    template_name = 'user/login.html'
+
+    def form_valid(self, form):
+        form.login_user(self.request)
+        return super().form_valid(form)

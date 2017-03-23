@@ -1,7 +1,7 @@
-from django.db import models
 from django.contrib.auth.models import User as UserModel
+from django.db import models
 
-from items.models import UserPurchasedItem, UserShoppingListItem, Item
+from items.models import Item, UserPurchasedItem, UserShoppingListItem
 
 
 class User(UserModel):
