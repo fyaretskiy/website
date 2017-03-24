@@ -1,8 +1,12 @@
 from django.db import models
+from django.shortcuts import reverse
 
 
 class Item(models.Model):
     name = models.CharField('name', max_length=128)
+
+    def add_to_shopping_list_url(self):
+        return reverse('items:add_item', kwargs={'item_id': self.pk})
 
     def __str__(self):
         return self.name

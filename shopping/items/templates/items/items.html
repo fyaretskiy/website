@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
 
 {% block body %}
+    {% include 'header.html' %}
+
+    {% if user.is_authenticated %}
+        <div>
+            <a href="{% url 'items:shopping_list' %}">View Cart</a>
+        </div>
+    {% endif %}
     {% for object in object_list %}
         <p> {{ object.name }} </p>
+        <a href="{{ object.add_to_shopping_list_url }}">Add to shopping list</a>
     {% endfor %}
 {% endblock %}
