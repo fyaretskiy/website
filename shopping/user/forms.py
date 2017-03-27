@@ -9,12 +9,13 @@ class UserRegistrationForm(forms.Form):
     username = forms.CharField(label='username', max_length=20)
     password = forms.CharField(widget=forms.PasswordInput())
 
-    def create_user(self):
+    def create_user_and_login(self, request):
         data = self.cleaned_data
 
-        User.objects.create_user(username=data['username'],
-                                 email=data['email'],
-                                 password=data['password'])
+        user = User.objects.create_user(username=data['username'],
+                                        email=data['email'],
+                                        password=data['password'])
+        login(request, user)
 
 
 class UserLoginForm(forms.Form):
@@ -30,6 +31,5 @@ class UserLoginForm(forms.Form):
 
         if user is not None:
             login(request, user)
-            request.session['test'] = 'test'
         else:
             pass

@@ -58,6 +58,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'shopping.wsgi.application'
 
 AUTH_USER_MODEL = 'user.User'
+LOGIN_URL = '/registration'
 
 DATABASES = {
     'default': {

@@ -1,8 +1,9 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import reverse
 from django.views.generic.list import ListView, View
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-from items.models import Item
+from .models import Item
 
 
 class ItemsView(ListView):
@@ -15,27 +16,20 @@ class ItemsView(ListView):
         return self.model.objects.all()
 
 
-class AddItemView(View):
+class AddItemView(LoginRequiredMixin, View):
 
-    def dispatch(self, request, *args, **kwargs):
-
-        user = request.user
-        if user.is_authenticated:
-            item = Item.objects.get(id=self.kwargs['item_id'])
-            user.add_item_to_shopping_list(item)
-            return HttpResponseRedirect(reverse('items:home'))
-        else:
-            return HttpResponseRedirect(reverse('items:home'))
+    def get(self, request, *args, **kwargs):
+        item = Item.objects.get(id=self.kwargs['item_id'])
+        request.user.add_item_to_shopping_list(item)
+        return HttpResponseRedirect(reverse('items:shopping_list'))
 
 
-class DeleteItemView(ListView):
-    def dispatch(self, request, *args, **kwargs):
-        user = request.user
-        if user.is_authenticated:
-            item = Item.objects.get(id=self.kwargs['item_id'])
-            user.delete_item_from_list(item)
+class DeleteItemView(LoginRequiredMixin, ListView):
+    def get(self, request, *args, **kwargs):
+        item = Item.objects.get(id=self.kwargs['item_id'])
+        request.user.delete_item_from_list(item)
 
-        return super().dispatch(request, *args, **kwargs)
+        return HttpResponseRedirect(reverse('items:shopping_list'))
 
 
 class ShoppingListView(ListView):

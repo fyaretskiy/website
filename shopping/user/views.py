@@ -12,7 +12,7 @@ class UserRegistrationView(FormView):
     success_url = reverse('items:home')
 
     def form_valid(self, form):
-        form.create_user()
+        form.create_user_and_login(self.request)
         return super().form_valid(form)
 
 
