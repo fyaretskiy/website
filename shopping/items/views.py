@@ -18,14 +18,14 @@ class ItemsView(ListView):
 
 class AddItemView(LoginRequiredMixin, View):
 
-    def get(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         item = Item.objects.get(id=self.kwargs['item_id'])
         request.user.add_item_to_shopping_list(item)
         return HttpResponseRedirect(reverse('items:shopping_list'))
 
 
 class DeleteItemView(LoginRequiredMixin, ListView):
-    def get(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         item = Item.objects.get(id=self.kwargs['item_id'])
         request.user.delete_item_from_list(item)
 

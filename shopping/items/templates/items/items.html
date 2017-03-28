@@ -9,7 +9,11 @@
         </div>
     {% endif %}
     {% for object in object_list %}
-        <p> {{ object.name }} </p>
-        <a href="{{ object.add_to_shopping_list_url }}">Add to shopping list</a>
+        {{ object.name }}
+        <form action="{{ object.add_to_shopping_list_url }}" method="post">
+        <input type="submit" value="Add to shopping list">
+        {% csrf_token %}
+        </form>
+        <br>
     {% endfor %}
 {% endblock %}

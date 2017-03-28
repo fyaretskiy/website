@@ -4,7 +4,13 @@
     <div>
         <ul>
             {% for item in item_list %}
-            <li>{{ item.name }}</li>
+            <li>
+                {{ item.name }}
+                <form action="{% url 'items:remove_item' item.pk %}" method="post">
+                    <input type="submit" value="Remove">
+                    {% csrf_token %}
+                </form>
+            </li>
             {% endfor %}
         </ul>
     </div>
